@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import { User, Session } from '@supabase/supabase-js';
-import { supabase } from '../lib/supabase';
+import { auth } from '../lib/config';
+import { onAuthStateChanged, signOut as firebaseSignOut, User as FirebaseUser } from 'firebase/auth';
 
 // Rank Thresholds
 const RANKS = [
@@ -23,16 +23,18 @@ export interface UserProfile {
     location?: string;
     is_onboarded?: boolean;
     tech_stack?: string[];
-    // Computed on client
+    coins: number;
+    github_url?: string;
+    role?: string;
+    badges?: { label: string; color?: string }[];
     rank?: Rank;
 }
 
 interface AuthState {
-    user: User | null;
-    session: Session | null;
+    user: FirebaseUser | null;
     profile: UserProfile | null;
     loading: boolean;
-    initialize: () => Promise<void>;
+    initialize: () => void;
     signOut: () => Promise<void>;
     addXp: (amount: number) => Promise<void>;
 }
@@ -49,90 +51,53 @@ export const getNextLevelXp = (xp: number) => {
 
 export const useAuthStore = create<AuthState>((set, get) => ({
     user: null,
-    session: null,
     profile: null,
     loading: true,
 
-    initialize: async () => {
-        try {
-            // 1. Get Session
-            const { data: { session } } = await supabase.auth.getSession();
-
-            if (session?.user) {
-                // 2. Get Profile
-                const { data: profile, error } = await supabase
-                    .from('profiles')
-                    .select('*')
-                    .eq('id', session.user.id)
-                    .single();
-
-                if (profile && !error) {
-                    const xp = profile.xp || 0;
-                    const rank = getRankConfig(xp).name;
-                    set({
-                        user: session.user,
-                        session,
-                        profile: { ...profile, rank },
-                        loading: false
-                    });
-                } else {
-                    // Fallback if profile missing (shouldn't happen with triggers)
-                    set({ user: session.user, session, profile: null, loading: false });
-                }
+    initialize: () => {
+        set({ loading: true });
+        
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // To be implemented: fetch profile from Firestore
+                // For now, we mock the profile
+                const mockProfile: UserProfile = {
+                    id: user.uid,
+                    username: user.displayName?.split(' ')[0] || user.email?.split('@')[0] || 'User',
+                    full_name: user.displayName || 'User',
+                    avatar_url: user.photoURL || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.uid}`,
+                    xp: 0,
+                    coins: 100,
+                    is_onboarded: true,
+                    rank: 'Junior'
+                };
+                set({ user, profile: mockProfile, loading: false });
             } else {
-                set({ user: null, session: null, profile: null, loading: false });
+                set({ user: null, profile: null, loading: false });
             }
-
-            // Listen for changes
-            supabase.auth.onAuthStateChange(async (_event, session) => {
-                if (session?.user) {
-                    const { data: profile } = await supabase.from('profiles').select('*').eq('id', session.user.id).single();
-                    if (profile) {
-                        const rank = getRankConfig(profile.xp || 0).name;
-                        set({ user: session.user, session, profile: { ...profile, rank } });
-                    }
-                } else {
-                    set({ user: null, session: null, profile: null });
-                }
-            });
-
-        } catch (e) {
-            console.error("Auth Init Error:", e);
-            set({ loading: false });
-        }
+        }, (error) => {
+            console.error("Auth Init Error:", error);
+            set({ user: null, profile: null, loading: false });
+        });
     },
 
     signOut: async () => {
-        await supabase.auth.signOut();
-        set({ user: null, session: null, profile: null });
+        try {
+            await firebaseSignOut(auth);
+        } catch (e) {
+            console.error(e);
+        }
+        set({ user: null, profile: null });
     },
 
     addXp: async (amount: number) => {
-        const { user, profile } = get();
-        if (!user || !profile) return;
+        const { profile } = get();
+        if (!profile) return;
 
         const newXp = (profile.xp || 0) + amount;
-
-        // Optimistic Update
-        const oldRank = profile.rank;
-        const newRankConfig = getRankConfig(newXp);
-        const newRank = newRankConfig.name;
+        const newRank = getRankConfig(newXp).name;
 
         set({ profile: { ...profile, xp: newXp, rank: newRank } });
-
-        // DB Update
-        const { error } = await supabase
-            .from('profiles')
-            .update({ xp: newXp })
-            .eq('id', user.id);
-
-        if (error) {
-            console.error("XP Update Failed:", error);
-            // Revert? For now, we accept minimal drift risks.
-        } else {
-            if (newRank !== oldRank) {
-                document.dispatchEvent(new CustomEvent('levelUp', { detail: { rank: newRank } }));
-            }
-        }
+        // To be implemented: update XP in Firestore
     }
 }));

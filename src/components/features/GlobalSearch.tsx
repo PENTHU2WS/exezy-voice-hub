@@ -91,7 +91,7 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
                             {query === '' ? (
                                 <div className="py-12 text-center text-gray-500">
                                     <Command className="w-12 h-12 mx-auto mb-4 opacity-20" />
-                                    <p>Type to search across DevHub...</p>
+                                    <p>Type to search across Exezy...</p>
                                 </div>
                             ) : results.length > 0 ? (
                                 <div className="space-y-1">
@@ -127,7 +127,7 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
                         {/* Footer */}
                         <div className="px-4 py-2 border-t border-white/5 bg-white/[0.02] text-[10px] text-gray-600 flex justify-between">
                             <span>ProTip: Use # to search tags</span>
-                            <span>DevHub Search v1.0</span>
+                            <span>Exezy Search v1.0</span>
                         </div>
                     </motion.div>
                 </div>

@@ -13,7 +13,7 @@ export function Footer() {
                             <div className="w-8 h-8 bg-white text-black rounded-lg flex items-center justify-center font-bold font-mono">
                                 &lt;/&gt;
                             </div>
-                            <span className="text-xl font-bold">DevHub</span>
+                            <span className="text-xl font-bold">Exezy</span>
                         </Link>
                         <p className="text-sm leading-relaxed mb-6 max-w-xs">
                             The ultimate platform for developers to build, ship, and grow together.
@@ -80,11 +80,11 @@ export function Footer() {
                 {/* Bottom Bar */}
                 <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
                     <p className="text-sm">
-                        &copy; {new Date().getFullYear()} DevHub Inc. All rights reserved.
+                        &copy; {new Date().getFullYear()} Exezy Inc. All rights reserved.
                     </p>
                     <p className="text-sm flex items-center gap-1.5">
                         Made with <Heart className="w-4 h-4 text-red-500 fill-red-500" /> by
-                        <span className="text-white font-medium">DevHub Team</span>
+                        <span className="text-white font-medium">Exezy Team</span>
                     </p>
                 </div>
             </div>

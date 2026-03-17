@@ -3,7 +3,8 @@ import { Command } from "cmdk";
 import { Search, User, FileText, Plus, Home, Zap, Loader2, Code2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
-import { supabase } from "../../lib/supabase";
+// import { db } from '../../lib/config';
+// import { collection, query, limit, getDocs } from 'firebase/firestore';
 import { Project } from "../../types";
 
 export function CommandPalette() {
@@ -36,13 +37,14 @@ export function CommandPalette() {
 
         const timer = setTimeout(async () => {
             setLoading(true);
-            const { data } = await supabase
-                .from('projects')
-                .select('*')
-                .ilike('title', `%${search}%`)
-                .limit(5);
+            
+            // Mock empty project list for search
+            const allProjects: Project[] = [];
+            
+            const searchLower = search.toLowerCase();
+            const filtered = allProjects.filter(p => p.title.toLowerCase().includes(searchLower)).slice(0, 5);
 
-            if (data) setProjects(data as Project[]);
+            setProjects(filtered);
             setLoading(false);
         }, 300);
 

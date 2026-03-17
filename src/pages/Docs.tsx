@@ -5,7 +5,7 @@ import { cn } from '../lib/utils';
 import { motion } from 'framer-motion';
 
 const SIDEBAR_ITEMS = [
-    { section: 'Introduction', items: ['Getting Started', 'What is DevHub?', 'Architecture'] },
+    { section: 'Introduction', items: ['Getting Started', 'What is Exezy?', 'Architecture'] },
     { section: 'Guides', items: ['Project Upload', 'Structure & ZIP', 'Live Preview'] },
     { section: 'Advanced', items: ['API Reference', 'CLI Tools', 'Deployment'] },
 ];
@@ -58,7 +58,7 @@ export function Docs() {
 
                             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">Getting Started</h1>
                             <p className="text-xl text-gray-400 leading-relaxed mb-12">
-                                Welcome to the comprehensive guide for DevHub. Learn how to integrate, deploy,
+                                Welcome to the comprehensive guide for Exezy. Learn how to integrate, deploy,
                                 and scale your applications with our unified toolchain.
                             </p>
 
@@ -92,7 +92,7 @@ export function Docs() {
                                     <div className="absolute -inset-0.5 bg-gradient-to-r from-neon-violet to-purple-600 rounded-lg opacity-20 group-hover:opacity-40 transition duration-500 blur"></div>
                                     <div className="relative p-4 rounded-lg bg-black border border-white/10 font-mono text-sm text-gray-300 flex items-center">
                                         <span className="text-neon-violet mr-2">$</span>
-                                        npm install -g @devhub/cli@latest
+                                        npm install -g @exezy/cli@latest
                                     </div>
                                 </div>
                             </div>
@@ -161,3 +161,5 @@ function Globe(props: any) {
         </svg>
     )
 }
+
+

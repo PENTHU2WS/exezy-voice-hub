@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { Layout } from '../components/layout/Layout';
 import { Button } from '../components/common/Button';
 import { useAuthStore } from '../store/authStore';
-import { supabase } from '../lib/supabase';
+// import { db } from '../lib/config';
+// import { doc, setDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Loader2, Save, User as UserIcon, Globe, MapPin, Github, AlertCircle } from 'lucide-react';
@@ -44,7 +45,7 @@ export function EditProfile() {
             if (!user) throw new Error("No user logged in");
 
             const updates = {
-                id: user.id,
+                id: user.uid,
                 full_name: formData.full_name,
                 bio: formData.bio,
                 website: formData.website,
@@ -53,13 +54,10 @@ export function EditProfile() {
                 updated_at: new Date().toISOString(),
             };
 
-            const { error } = await supabase
-                .from('profiles')
-                .upsert(updates);
+            // Mock update
+            console.log('Mock Profile Update:', updates);
 
-            if (error) throw error;
-
-            await initialize(); // Refresh store
+            // await initialize(); // Refresh store
             setMessage({ type: 'success', text: 'Profile updated successfully!' });
 
             // Optional: Redirect back after short delay
@@ -218,3 +216,5 @@ export function EditProfile() {
         </Layout>
     );
 }
+
+

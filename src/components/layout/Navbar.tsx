@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '../common/Button';
 import { Search, Upload, User as UserIcon, Bell, LogOut, Settings, CheckCheck } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
@@ -10,9 +10,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { formatDistanceToNow } from 'date-fns';
 
 export function Navbar() {
-    const { user, signOut } = useAuthStore();
+    const { user, profile, signOut } = useAuthStore();
     const { notifications, fetchNotifications, markRead, markAllRead } = useSocialStore();
     const location = useLocation();
+    const navigate = useNavigate();
 
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [showUserMenu, setShowUserMenu] = useState(false);
@@ -23,9 +24,9 @@ export function Navbar() {
 
     useEffect(() => {
         if (user) {
-            fetchNotifications(user.id);
+            fetchNotifications(user.uid);
             // Polling notifications every 60s
-            const interval = setInterval(() => fetchNotifications(user.id), 60000);
+            const interval = setInterval(() => fetchNotifications(user.uid), 60000);
             return () => clearInterval(interval);
         }
     }, [user]);
@@ -44,8 +45,11 @@ export function Navbar() {
 
     const navItems = [
         { label: 'Home', path: '/' },
-        { label: 'Explore', path: '/explore' },
+        { label: 'Feed', path: '/feed' },
         { label: 'Community', path: '/community' },
+        { label: 'Leaderboard', path: '/leaderboard' },
+        { label: 'Voice', path: '/voice' },
+        { label: 'Shop', path: '/shop' },
         { label: 'Docs', path: '/docs' },
     ];
 
@@ -55,11 +59,11 @@ export function Navbar() {
                 <div className="container mx-auto h-full px-4 flex items-center justify-between">
                     {/* Logo */}
                     <Link to="/" className="flex items-center gap-2 group">
-                        <div className="w-8 h-8 bg-white text-black rounded-lg flex items-center justify-center font-bold font-mono group-hover:bg-neon-violet group-hover:text-white transition-colors">
+                        <div className="w-8 h-8 bg-gradient-to-br from-fuchsia-500 to-cyan-400 text-white rounded-lg flex items-center justify-center font-bold font-mono shadow-[0_0_15px_rgba(217,70,239,0.5)] transition-all">
                             &lt;/&gt;
                         </div>
-                        <span className="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-500 group-hover:from-white group-hover:to-neon-violet transition-all uppercase tracking-tighter">
-                            DevHub
+                        <span className="text-2xl font-black font-mono bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-500 to-cyan-400 drop-shadow-[0_0_12px_rgba(217,70,239,0.5)] transition-all tracking-tighter">
+                            Exezy
                         </span>
                     </Link>
 
@@ -133,7 +137,7 @@ export function Navbar() {
                                                 <div className="px-5 py-3 border-b border-white/5 flex justify-between items-center bg-white/[0.02]">
                                                     <span className="text-[10px] font-black text-white uppercase tracking-widest">Signals ({unreadCount})</span>
                                                     <button
-                                                        onClick={() => markAllRead(user.id)}
+                                                        onClick={() => markAllRead(user.uid)}
                                                         className="text-[9px] font-black text-purple-500 hover:text-purple-400 flex items-center gap-1 uppercase tracking-tighter"
                                                     >
                                                         <CheckCheck className="w-3 h-3" /> Mark Read
@@ -182,8 +186,8 @@ export function Navbar() {
                                         onClick={() => setShowUserMenu(!showUserMenu)}
                                         className="w-9 h-9 rounded-full bg-purple-500/10 border border-purple-500/40 flex items-center justify-center cursor-pointer hover:border-purple-500 transition-all overflow-hidden"
                                     >
-                                        {user.user_metadata?.avatar_url ? (
-                                            <img src={user.user_metadata.avatar_url} alt="User" className="w-full h-full object-cover" />
+                                        {profile?.avatar_url ? (
+                                            <img src={profile.avatar_url} alt="User" className="w-full h-full object-cover" />
                                         ) : (
                                             <UserIcon className="w-4 h-4 text-purple-400" />
                                         )}
@@ -199,7 +203,7 @@ export function Navbar() {
                                             >
                                                 <div className="px-5 py-3 border-b border-white/5 mb-1">
                                                     <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Profile Root</p>
-                                                    <p className="text-xs font-bold text-white truncate">@{user.user_metadata?.username || 'user'}</p>
+                                                    <p className="text-xs font-bold text-white truncate">@{profile?.username || user.displayName || 'user'}</p>
                                                 </div>
                                                 <Link to="/profile" className="flex items-center gap-3 px-5 py-2.5 text-[11px] font-black uppercase text-gray-400 hover:bg-white/5 hover:text-white transition-colors tracking-widest">
                                                     <UserIcon className="w-3.5 h-3.5" /> Workspace
@@ -209,7 +213,10 @@ export function Navbar() {
                                                 </Link>
                                                 <div className="h-px bg-white/5 my-2" />
                                                 <button
-                                                    onClick={() => { signOut(); window.location.reload(); }}
+                                                    onClick={async () => {
+                                                        await signOut();
+                                                        navigate('/');
+                                                    }}
                                                     className="w-full text-left flex items-center gap-3 px-5 py-2.5 text-[11px] font-black uppercase text-red-500 hover:bg-red-500/10 transition-colors tracking-widest"
                                                 >
                                                     <LogOut className="w-3.5 h-3.5" /> Terminate Session

@@ -10,9 +10,11 @@ import { Toaster } from 'sonner';
 interface LayoutProps {
     children: ReactNode;
     showNavbar?: boolean;
+    disableFooter?: boolean;
+    hideNavPadding?: boolean;
 }
 
-export function Layout({ children, showNavbar = true }: LayoutProps) {
+export function Layout({ children, showNavbar = true, disableFooter = false, hideNavPadding = false }: LayoutProps) {
     const { initialize } = useAuthStore();
 
     useEffect(() => {
@@ -26,10 +28,10 @@ export function Layout({ children, showNavbar = true }: LayoutProps) {
             <LevelUpListener />
 
             {showNavbar && <Navbar />}
-            <main className={showNavbar ? 'pt-16' : ''}>
+            <main className={showNavbar && !hideNavPadding ? 'pt-16' : ''}>
                 {children}
             </main>
-            {showNavbar && <Footer />}
+            {showNavbar && !disableFooter && <Footer />}
         </div>
     );
 }

@@ -10,6 +10,10 @@ export interface UserProfile {
     location?: string;
     is_onboarded?: boolean;
     tech_stack?: string[];
+    coins: number;
+    github_url?: string;
+    role?: string;
+    badges?: { label: string; color?: string }[];
 }
 
 export interface Project {
@@ -17,15 +21,22 @@ export interface Project {
     title: string;
     description: string;
     image_url: string;
-    user_id: string; // Replaced author_id for consistency
+    imageUrl?: string; // Hybrid support
+    user_id: string;
+    userId?: string; // Hybrid support
     tags: string[];
     likes: number;
-    created_at: string;
+    created_at: any; // Supports Firestore Timestamp
     code_snippet?: string;
     file_url?: string;
     file_name?: string;
     language_stats?: Record<string, number>;
     views: number;
+    // Storage & Download (Hybrid Service)
+    imageStoragePath?: string;
+    zipStoragePath?: string;
+    downloadUrl?: string;
+    demoUrl?: string;
 }
 
 export interface ForumPost {

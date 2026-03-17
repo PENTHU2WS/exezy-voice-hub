@@ -8,11 +8,11 @@ export function Home() {
     return (
         <Layout>
             {/* Hero Section */}
-            <section className="relative min-h-[90vh] flex flex-col items-center justify-center text-center overflow-hidden pt-20">
+            <section className="relative min-h-[90vh] flex flex-col items-center justify-center text-center overflow-hidden pt-20 bg-black">
 
                 {/* Background Effects */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-neon-violet/20 rounded-full blur-[120px] opacity-30 pointer-events-none" />
-                <div className="absolute bottom-0 right-0 w-[800px] h-[600px] bg-purple-900/20 rounded-full blur-[100px] opacity-20 pointer-events-none" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-purple-600/10 rounded-full blur-[120px] opacity-30 pointer-events-none" />
+                <div className="absolute bottom-0 right-0 w-[800px] h-[600px] bg-purple-900/10 rounded-full blur-[100px] opacity-20 pointer-events-none" />
 
                 <div className="container mx-auto px-4 relative z-10">
                     <motion.div
@@ -21,14 +21,14 @@ export function Home() {
                         transition={{ duration: 0.8, ease: "easeOut" }}
                         className="flex flex-col items-center max-w-4xl mx-auto"
                     >
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-neon-violet mb-8 animate-pulse">
-                            <span className="w-2 h-2 rounded-full bg-neon-violet"></span>
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-xs font-medium text-purple-400 mb-8 animate-pulse">
+                            <span className="w-2 h-2 rounded-full bg-purple-400"></span>
                             v1.0 is now live
                         </div>
 
                         <h1 className="text-6xl md:text-8xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400 tracking-tight mb-6 leading-tight">
                             Build Faster,<br />
-                            <span className="text-neon-violet">Ship Better.</span>
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Ship Better.</span>
                         </h1>
 
                         <p className="text-xl md:text-2xl text-gray-400 mb-10 max-w-2xl leading-relaxed">
@@ -38,12 +38,12 @@ export function Home() {
 
                         <div className="flex flex-col sm:flex-row items-center gap-4">
                             <Link to="/explore">
-                                <Button size="lg" className="h-14 px-8 text-lg gap-2 shadow-[0_0_30px_-10px_rgba(139,92,246,0.5)]">
+                                <Button size="lg" className="h-14 px-8 text-lg gap-2 bg-purple-600 hover:bg-purple-500 shadow-lg shadow-purple-500/30">
                                     Start Exploring <ArrowRight className="w-5 h-5" />
                                 </Button>
                             </Link>
                             <Link to="/docs">
-                                <Button variant="secondary" size="lg" className="h-14 px-8 text-lg">
+                                <Button variant="secondary" size="lg" className="h-14 px-8 text-lg bg-white/5 hover:bg-white/10 border-white/10">
                                     Read Documentation
                                 </Button>
                             </Link>
@@ -66,7 +66,7 @@ export function Home() {
                             <p className="text-gray-400">Hand-picked by our editors for their innovation.</p>
                         </div>
                         <Link to="/explore">
-                            <Button variant="ghost" className="gap-2 text-neon-violet hover:text-white hover:bg-neon-violet/10">
+                            <Button variant="ghost" className="gap-2 text-purple-400 hover:text-white hover:bg-purple-500/10">
                                 View All <ArrowRight className="w-4 h-4" />
                             </Button>
                         </Link>
@@ -88,7 +88,7 @@ export function Home() {
                             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
                             <div className="absolute bottom-0 left-0 p-8 w-full">
                                 <div className="flex items-center gap-3 mb-3">
-                                    <span className="px-3 py-1 rounded-full bg-neon-violet text-white text-xs font-bold uppercase tracking-wider">
+                                    <span className="px-3 py-1 rounded-full bg-purple-600 text-white text-xs font-bold uppercase tracking-wider">
                                         Featured
                                     </span>
                                     <span className="text-sm font-medium text-gray-300">@alex_dev</span>
@@ -127,7 +127,7 @@ export function Home() {
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90" />
                                     <div className="absolute bottom-0 left-0 p-5">
-                                        <h4 className="text-xl font-bold text-white mb-1 group-hover:text-neon-violet transition-colors">{item.title}</h4>
+                                        <h4 className="text-xl font-bold text-white mb-1 group-hover:text-purple-400 transition-colors">{item.title}</h4>
                                         <div className="flex items-center justify-between">
                                             <p className="text-sm text-gray-400">{item.author}</p>
                                             <ArrowRight className="w-4 h-4 text-white -translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all" />
@@ -152,10 +152,10 @@ export function Home() {
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {[
-                            { icon: Zap, title: "Lightning Fast", desc: "Built on Vite and Supabase for minimal latency and maximum performance." },
+                            { icon: Zap, title: "Lightning Fast", desc: "Built on Vite and Firebase for minimal latency and maximum performance." },
                             { icon: Code, title: "Modern Stack", desc: "React 18, TypeScript, and Tailwind CSS ready to go out of the box." },
                             { icon: Globe, title: "Global CDN", desc: "Deploy your assets to the edge with a single click." },
-                            { icon: Shield, title: "Secure by Default", desc: "Enterprise-grade security with Supabase Auth and RLS policies." },
+                            { icon: Shield, title: "Secure by Default", desc: "Enterprise-grade security with Firebase Auth and Firestore rules." },
                             { icon: Layers, title: "Scalable Architecture", desc: "Designed to grow with your project from day one." },
                             { icon: Cpu, title: "AI Powered", desc: "Integrated AI tools to help you write better code faster." }
                         ].map((feature, i) => (
@@ -168,9 +168,9 @@ export function Home() {
                                 className="group p-8 rounded-2xl bg-dev-card border border-white/5 hover:border-white/10 transition-colors hover:bg-white/[0.02]"
                             >
                                 <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                                    <feature.icon className="w-6 h-6 text-neon-violet group-hover:text-white transition-colors" />
+                                    <feature.icon className="w-6 h-6 text-purple-400 group-hover:text-white transition-colors" />
                                 </div>
-                                <h3 className="text-xl font-bold mb-3 group-hover:text-neon-violet transition-colors">{feature.title}</h3>
+                                <h3 className="text-xl font-bold mb-3 group-hover:text-purple-400 transition-colors">{feature.title}</h3>
                                 <p className="text-gray-400 leading-relaxed text-sm">{feature.desc}</p>
                             </motion.div>
                         ))}
@@ -180,3 +180,4 @@ export function Home() {
         </Layout>
     );
 }
+

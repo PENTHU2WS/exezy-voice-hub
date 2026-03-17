@@ -10,7 +10,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { cn } from '../lib/utils';
 import { Link, useNavigate } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
+// import { db } from '../lib/config';
+// import { collection, query, where, orderBy, getDocs } from 'firebase/firestore';
 import { Project } from '../types';
 
 export function Profile() {
@@ -32,23 +33,9 @@ export function Profile() {
             if (!profile) return;
             setProfileLoading(true);
             try {
-                // Fetch User Projects
-                const query = supabase
-                    .from('projects')
-                    .select('*')
-                    .eq('user_id', profile.id)
-                    .order('created_at', { ascending: false });
-
-                const { data: userProjects } = await query;
-                if (userProjects) {
-                    setProjects(userProjects as Project[]);
-                    const totalLikes = userProjects.reduce((acc: number, curr: any) => acc + (curr.likes || 0), 0);
-                    setStats({
-                        projectCount: userProjects.length,
-                        likesCount: totalLikes
-                    });
-                }
-
+                // Mock projects
+                setProjects([]);
+                setStats({ projectCount: 0, likesCount: 0 });
                 // Fetch real-time following/followers
                 await fetchNetwork(profile.id);
             } catch (error) {
@@ -64,11 +51,10 @@ export function Profile() {
     const handleNetworkAction = async (targetId: string, isUnfollow: boolean) => {
         if (!user) return;
         if (isUnfollow) {
-            await unfollow(user.id, targetId);
+            await unfollow(user.uid, targetId);
         } else {
-            // Follow Back Logic
-            await supabase.from('follows').insert({ follower_id: user.id, following_id: targetId });
-            await fetchNetwork(user.id); // Refresh
+            // Mock follow back logic
+            await fetchNetwork(user.uid); // Refresh
         }
     };
 
@@ -301,3 +287,5 @@ export function Profile() {
         </Layout>
     );
 }
+
+

@@ -1,0 +1,12 @@
+﻿
+> devhub@0.0.0 build
+> tsc -b && vite build
+
+src/components/features/CodeViewer.tsx(1,44): error TS7016: Could not find a declaration file for module 'react-syntax-highlighter'. 'C:/Users/ilgaz/OneDrive/Desktop/HUB/node_modules/react-syntax-highlighter/dist/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/react-syntax-highlighter` if it exists or add a new declaration (.d.ts) file containing `declare module 'react-syntax-highlighter';`
+src/components/features/CodeViewer.tsx(2,29): error TS7016: Could not find a declaration file for module 'react-syntax-highlighter/dist/esm/styles/prism'. 'C:/Users/ilgaz/OneDrive/Desktop/HUB/node_modules/react-syntax-highlighter/dist/esm/styles/prism/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/react-syntax-highlighter` if it exists or add a new declaration (.d.ts) file containing `declare module 'react-syntax-highlighter/dist/esm/styles/prism';`
+src/pages/PostDetail.tsx(17,44): error TS7016: Could not find a declaration file for module 'react-syntax-highlighter'. 'C:/Users/ilgaz/OneDrive/Desktop/HUB/node_modules/react-syntax-highlighter/dist/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/react-syntax-highlighter` if it exists or add a new declaration (.d.ts) file containing `declare module 'react-syntax-highlighter';`
+src/pages/PostDetail.tsx(18,29): error TS7016: Could not find a declaration file for module 'react-syntax-highlighter/dist/esm/styles/prism'. 'C:/Users/ilgaz/OneDrive/Desktop/HUB/node_modules/react-syntax-highlighter/dist/esm/styles/prism/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/react-syntax-highlighter` if it exists or add a new declaration (.d.ts) file containing `declare module 'react-syntax-highlighter/dist/esm/styles/prism';`

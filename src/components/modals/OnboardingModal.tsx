@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { supabase } from '../../lib/supabase';
+// import { storage } from '../../lib/config';
+// import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useAuthStore } from '../../store/authStore';
 import { Button } from '../common/Button';
 import { Camera, Dice5, Check, ChevronRight, User, MapPin, Code, Sparkles } from 'lucide-react';
@@ -43,9 +44,9 @@ export function OnboardingModal() {
             setLocation(profile.location || '');
             setWebsite(profile.website || '');
             setSelectedTech(profile.tech_stack || []);
-        } else if (user?.user_metadata) {
-            setUsername(user.user_metadata.username || '');
-            setAvatarUrl(user.user_metadata.avatar_url || '');
+        } else if (user) {
+            setUsername(user.displayName?.split(' ')[0] || user.email?.split('@')[0] || '');
+            setAvatarUrl(user.photoURL || '');
         }
     }, [profile, user]);
 
@@ -93,26 +94,14 @@ export function OnboardingModal() {
         setAvatarUrl(previewUrl);
 
         try {
-            // New path format: user_id/timestamp_filename
-            const filePath = `${user.id}/${Date.now()}_${file.name}`;
-
-            const { error: uploadError } = await supabase.storage
-                .from('avatars')
-                .upload(filePath, file, {
-                    upsert: true
-                });
-
-            if (uploadError) throw uploadError;
-
-            const { data: { publicUrl } } = supabase.storage
-                .from('avatars')
-                .getPublicUrl(filePath);
-
-            setAvatarUrl(publicUrl);
+            // Mock upload
+            setTimeout(() => {
+                setAvatarUrl(previewUrl);
+                setLoading(false);
+            }, 500);
         } catch (error: any) {
             console.error('Upload error:', error);
             alert(`Upload Failed: ${error.message || 'Unknown error'}`);
-        } finally {
             setLoading(false);
         }
     };
@@ -121,29 +110,13 @@ export function OnboardingModal() {
         if (username.length < 3) return setUsernameError("Username must be at least 3 chars");
 
         setLoading(true);
-        // Check uniqueness if changed
-        if (username !== profile?.username) {
-            const { data } = await supabase
-                .from('profiles')
-                .select('id')
-                .eq('username', username)
-                .single();
-
-            if (data) {
-                if (data.id !== user?.id) { // Allow if it's me
-                    setUsernameError("Username is taken");
-                    setLoading(false);
-                    return;
-                }
-            }
-        }
-
-        setUsernameError('');
-        setLoading(false);
-        // Set default avatar if empty
-        if (!avatarUrl) handleRandomizeAvatar();
-
-        setStep(2);
+        // Mock uniqueness check
+        setTimeout(() => {
+            setUsernameError('');
+            setLoading(false);
+            if (!avatarUrl) handleRandomizeAvatar();
+            setStep(2);
+        }, 500);
     };
 
     const toggleTech = (tech: string) => {
@@ -159,11 +132,7 @@ export function OnboardingModal() {
         try {
             setLoading(true);
 
-            // 1. Mevcut kullanıcıyı al (Get current user)
-            const { data: { user } } = await supabase.auth.getUser();
-            if (!user) throw new Error("Kullanıcı oturumu bulunamadı! (User not found)");
-
-            // 2. Veriyi Hazırla (Prepare Data Payload)
+            // Mock saving
             const updates = {
                 username: username,
                 bio: bio,
@@ -175,22 +144,14 @@ export function OnboardingModal() {
                 updated_at: new Date().toISOString(),
             };
 
-            console.log("Gönderilecek Profil Verisi (DEBUG):", updates);
+            console.log("Mock Profile Post:", updates);
 
-            // 3. Güncelle (Update Profile)
-            const { error } = await supabase
-                .from('profiles')
-                .update(updates)
-                .eq('id', user.id);
-
-            if (error) throw error;
-
-            // 4. Başarılı - Sayfayı Yenile (Success - Reload to clear modal)
-            window.location.reload();
-
+            // Mock appwrite store initialize call
+            const authStore = (await import('../../store/authStore')).useAuthStore.getState();
+            await authStore.initialize();
         } catch (error: any) {
-            console.error('PROFIL KAYIT HATASI (DEBUG):', error);
-            alert('Kayıt Başarısız: ' + (error.message || error.details || 'Bilinmeyen hata'));
+            console.error('PROFILE SAVE ERROR:', error);
+            alert('Save Failed: ' + (error.message || 'Unknown error'));
         } finally {
             setLoading(false);
         }

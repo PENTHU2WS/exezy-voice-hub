@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { supabase } from '../lib/supabase';
 
 // Types for Social Features
 export interface Friend {
@@ -52,90 +51,38 @@ export const useSocialStore = create<SocialState>((set) => ({
     loading: false,
 
     fetchNotifications: async (userId) => {
-        const { data, error } = await supabase
-            .from('notifications')
-            .select('*')
-            .eq('user_id', userId)
-            .order('created_at', { ascending: false });
-
-        if (!error && data) {
-            set({ notifications: data as SocialNotification[] });
-        }
+        // Mock to avoid Firebase calls temporarily
+        set({ notifications: [] });
     },
 
     markRead: async (notifId) => {
-        const { error } = await supabase
-            .from('notifications')
-            .update({ read: true })
-            .eq('id', notifId);
-
-        if (!error) {
-            set((state) => ({
-                notifications: state.notifications.map(n => n.id === notifId ? { ...n, read: true } : n)
-            }));
-        }
+        set((state) => ({
+            notifications: state.notifications.map(n => n.id === notifId ? { ...n, read: true } : n)
+        }));
     },
 
     markAllRead: async (userId) => {
-        const { error } = await supabase
-            .from('notifications')
-            .update({ read: true })
-            .eq('user_id', userId);
-
-        if (!error) {
-            set((state) => ({
-                notifications: state.notifications.map(n => ({ ...n, read: true }))
-            }));
-        }
+        set((state) => ({
+            notifications: state.notifications.map(n => ({ ...n, read: true }))
+        }));
     },
 
     fetchNetwork: async (userId) => {
         set({ loading: true });
-        try {
-            // Fetch Followers (users who follow me)
-            const { data: fers, error: fersErr } = await supabase
-                .from('follows')
-                .select('follower:profiles!follower_id(*)')
-                .eq('following_id', userId);
-
-            // Fetch Following (users I follow)
-            const { data: fing, error: fingErr } = await supabase
-                .from('follows')
-                .select('following:profiles!following_id(*)')
-                .eq('follower_id', userId);
-
-            if (!fersErr && fers) {
-                const mappedFers = fers.map((f: any) => ({
-                    ...f.follower,
-                    status: 'online' // Mock status for now
-                } as Friend));
-                set({ followers: mappedFers });
-            }
-            if (!fingErr && fing) {
-                const mappedFing = fing.map((f: any) => ({
-                    ...f.following,
-                    status: 'online'
-                } as Friend));
-                set({ following: mappedFing, friends: mappedFing }); // Alias following to friends for the widget
-            }
-        } finally {
-            set({ loading: false });
-        }
+        // Mock network fetching
+        set({
+            followers: [],
+            following: [],
+            friends: [],
+            loading: false
+        });
     },
 
     unfollow: async (myId, targetId) => {
-        const { error } = await supabase
-            .from('follows')
-            .delete()
-            .eq('follower_id', myId)
-            .eq('following_id', targetId);
-
-        if (!error) {
-            set((state) => ({
-                following: state.following.filter(f => f.id !== targetId),
-                friends: state.friends.filter(f => f.id !== targetId)
-            }));
-        }
+        set((state) => ({
+            following: state.following.filter(f => f.id !== targetId),
+            friends: state.friends.filter(f => f.id !== targetId)
+        }));
     },
 
     sendMessage: (friendId, text) => set((state) => {

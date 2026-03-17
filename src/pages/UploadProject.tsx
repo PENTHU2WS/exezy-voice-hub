@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Layout } from '../components/layout/Layout';
 import { Button } from '../components/common/Button';
 import { Image as ImageIcon, FileArchive, Save, Loader2, Tag, CloudUpload } from 'lucide-react';
-import { supabase } from '../lib/supabase';
+// import { auth } from '../lib/config';
 import { useAuthStore } from '../store/authStore';
 import { useNavigate } from 'react-router-dom';
 
@@ -47,67 +47,42 @@ export function UploadProject() {
         if (!imageFile) return alert('Lütfen bir Kapak Resmi seçin!');
         if (!zipFile) return alert('Lütfen bir Proje Dosyası (Zip/Rar) seçin!');
 
+        // Dosya boyutu kontrolü (50 MB limit)
+        if (zipFile && zipFile.size > 50 * 1024 * 1024) {
+            alert("⚠️ HATA: Dosya boyutu 50 MB'ı geçemez! Lütfen daha küçük bir dosya yükleyin.");
+            return;
+        }
+
         // ADIM 1: Hazırlık
         setLoading(true);
         setBtnText('Checking User...');
 
         try {
-            const { data: { user } } = await supabase.auth.getUser();
+            // Check Appwrite user from store
+            const { user } = useAuthStore.getState();
             if (!user) throw new Error("Kullanıcı oturumu bulunamadı! Lütfen giriş yapın.");
 
-            // ADIM 2: Resim Yükleme
-            setBtnText('Uploading Image...');
-            const imagePath = `${user.id}/${Date.now()}_img_${imageFile.name}`;
-            const { error: imgErr } = await supabase.storage
-                .from('project-files')
-                .upload(imagePath, imageFile, { upsert: true });
-
-            if (imgErr) throw new Error("Resim yüklenemedi: " + imgErr.message);
-
-            const { data: { publicUrl: imageUrl } } = supabase.storage
-                .from('project-files')
-                .getPublicUrl(imagePath);
-
-            // ADIM 3: Zip Dosyası Yükleme
-            setBtnText('Uploading Project File...');
-            const filePath = `${user.id}/${Date.now()}_file_${zipFile.name}`;
-            const { error: zipErr } = await supabase.storage
-                .from('project-files')
-                .upload(filePath, zipFile, { upsert: true });
-
-            if (zipErr) throw new Error("Zip dosyası yüklenemedi: " + zipErr.message);
-
-            const { data: { publicUrl: fileUrl } } = supabase.storage
-                .from('project-files')
-                .getPublicUrl(filePath);
-
-            // ADIM 4: Veritabanı Kaydı
-            setBtnText('Saving to Database...');
-
+            // Metadata hazırla
+            setBtnText('Preparing upload...');
             const tagsArray = tagsInput.split(',').map(t => t.trim()).filter(t => t.length > 0);
 
-            const { error: dbErr } = await supabase
-                .from('projects')
-                .insert({
-                    title: title,
-                    description: description,
-                    image_url: imageUrl,
-                    file_url: fileUrl,
-                    file_name: zipFile.name,
-                    tags: tagsArray,
-                    user_id: user.id,
-                    likes: 0,
-                    // safe defaults
-                    code_snippet: '// Download zip to see logic',
-                    language_stats: { 'Zip File': 100 }
-                });
+            const metadata = {
+                title: title,
+                description: description,
+                tags: tagsArray,
+                user_id: (user as any).$id || (user as any).uid || 'mock-user-id',
+                file_name: zipFile.name
+            };
 
-            if (dbErr) throw new Error("Veritabanı kaydı başarısız: " + dbErr.message);
+            // hybridService kullanarak yükle
+            setBtnText('Uploading files...');
+            const { uploadProject } = await import('../lib/hybridService');
+            await uploadProject(imageFile, zipFile, metadata, (user as any).$id || (user as any).uid || 'mock-user-id');
 
-            // ADIM 5: Bitiş
+            // Başarılı
             await addXp(250);
             alert('Proje Başarıyla Yüklendi! 🚀');
-            navigate('/'); // Anasayfaya yönlendir
+            navigate('/');
 
         } catch (error: any) {
             console.error(error);
@@ -212,3 +187,4 @@ export function UploadProject() {
         </Layout>
     );
 }
+

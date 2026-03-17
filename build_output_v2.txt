@@ -1,0 +1,177 @@
+﻿
+> devhub@0.0.0 build
+> tsc -b && vite build
+
+[36mvite v6.4.1 [32mbuilding for production...[36m[39m
+transforming...
+node.exe : 
+At line:1 char:1
++ & "C:\Program Files\nodejs/
+node.exe" "C:\Program Files\n
+odejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: (:String  
+  ) [], RemoteException
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+/grid.svg referenced in /grid
+.svg didn't resolve at build 
+time, it will remain unchange
+d to be resolved at runtime
+[32mÔ£ô[39m 3544 modules transformed.
+rendering chunks...
+[33m[plugin vite:reporter] 
+(!) C:/Users/ilgaz/OneDrive/D
+esktop/HUB/node_modules/fireb
+ase/firestore/dist/esm/index.
+esm.js is dynamically importe
+d by C:/Users/ilgaz/OneDrive/
+Desktop/HUB/src/components/mo
+dals/OnboardingModal.tsx, C:/
+Users/ilgaz/OneDrive/Desktop/
+HUB/src/components/modals/Onb
+oardingModal.tsx, C:/Users/il
+gaz/OneDrive/Desktop/HUB/src/
+pages/Profile.tsx but also st
+atically imported by C:/Users
+/ilgaz/OneDrive/Desktop/HUB/s
+rc/lib/config.ts, C:/Users/il
+gaz/OneDrive/Desktop/HUB/src/
+lib/hybridService.ts, C:/User
+s/ilgaz/OneDrive/Desktop/HUB/
+src/pages/Auth.tsx, C:/Users/
+ilgaz/OneDrive/Desktop/HUB/sr
+c/pages/Community.tsx, C:/Use
+rs/ilgaz/OneDrive/Desktop/HUB
+/src/pages/EditProject.tsx, C
+:/Users/ilgaz/OneDrive/Deskto
+p/HUB/src/pages/Explore.tsx, 
+C:/Users/ilgaz/OneDrive/Deskt
+op/HUB/src/pages/Leaderboard.
+tsx, C:/Users/ilgaz/OneDrive/
+Desktop/HUB/src/pages/PostDet
+ail.tsx, C:/Users/ilgaz/OneDr
+ive/Desktop/HUB/src/pages/Pro
+jectDetail.tsx, C:/Users/ilga
+z/OneDrive/Desktop/HUB/src/pa
+ges/Shop.tsx, C:/Users/ilgaz/
+OneDrive/Desktop/HUB/src/stor
+e/authStore.ts, C:/Users/ilga
+z/OneDrive/Desktop/HUB/src/st
+ore/socialStore.ts, dynamic i
+mport will not move module in
+to another chunk.
+[39m
+[33m[plugin vite:reporter] 
+(!) C:/Users/ilgaz/OneDrive/D
+esktop/HUB/src/lib/config.ts 
+is dynamically imported by C:
+/Users/ilgaz/OneDrive/Desktop
+/HUB/src/components/modals/On
+boardingModal.tsx, C:/Users/i
+lgaz/OneDrive/Desktop/HUB/src
+/components/modals/Onboarding
+Modal.tsx, C:/Users/ilgaz/One
+Drive/Desktop/HUB/src/compone
+nts/modals/OnboardingModal.ts
+x, C:/Users/ilgaz/OneDrive/De
+sktop/HUB/src/pages/Profile.t
+sx but also statically import
+ed by C:/Users/ilgaz/OneDrive
+/Desktop/HUB/src/lib/hybridSe
+rvice.ts, C:/Users/ilgaz/OneD
+rive/Desktop/HUB/src/pages/Au
+th.tsx, C:/Users/ilgaz/OneDri
+ve/Desktop/HUB/src/pages/Comm
+unity.tsx, C:/Users/ilgaz/One
+Drive/Desktop/HUB/src/pages/E
+ditProject.tsx, C:/Users/ilga
+z/OneDrive/Desktop/HUB/src/pa
+ges/Explore.tsx, C:/Users/ilg
+az/OneDrive/Desktop/HUB/src/p
+ages/Leaderboard.tsx, C:/User
+s/ilgaz/OneDrive/Desktop/HUB/
+src/pages/PostDetail.tsx, C:/
+Users/ilgaz/OneDrive/Desktop/
+HUB/src/pages/ProjectDetail.t
+sx, C:/Users/ilgaz/OneDrive/D
+esktop/HUB/src/pages/Shop.tsx
+, C:/Users/ilgaz/OneDrive/Des
+ktop/HUB/src/pages/UploadProj
+ect.tsx, C:/Users/ilgaz/OneDr
+ive/Desktop/HUB/src/store/aut
+hStore.ts, C:/Users/ilgaz/One
+Drive/Desktop/HUB/src/store/s
+ocialStore.ts, dynamic import
+ will not move module into an
+other chunk.
+[39m
+[33m[plugin vite:reporter] 
+(!) C:/Users/ilgaz/OneDrive/D
+esktop/HUB/src/store/authStor
+e.ts is dynamically imported 
+by C:/Users/ilgaz/OneDrive/De
+sktop/HUB/src/components/moda
+ls/OnboardingModal.tsx but al
+so statically imported by C:/
+Users/ilgaz/OneDrive/Desktop/
+HUB/src/App.tsx, C:/Users/ilg
+az/OneDrive/Desktop/HUB/src/c
+omponents/common/CommandPalet
+te.tsx, C:/Users/ilgaz/OneDri
+ve/Desktop/HUB/src/components
+/layout/Layout.tsx, C:/Users/
+ilgaz/OneDrive/Desktop/HUB/sr
+c/components/layout/Navbar.ts
+x, C:/Users/ilgaz/OneDrive/De
+sktop/HUB/src/components/moda
+ls/OnboardingModal.tsx, C:/Us
+ers/ilgaz/OneDrive/Desktop/HU
+B/src/pages/Community.tsx, C:
+/Users/ilgaz/OneDrive/Desktop
+/HUB/src/pages/EditProfile.ts
+x, C:/Users/ilgaz/OneDrive/De
+sktop/HUB/src/pages/EditProje
+ct.tsx, C:/Users/ilgaz/OneDri
+ve/Desktop/HUB/src/pages/Lead
+erboard.tsx, C:/Users/ilgaz/O
+neDrive/Desktop/HUB/src/pages
+/PostDetail.tsx, C:/Users/ilg
+az/OneDrive/Desktop/HUB/src/p
+ages/Profile.tsx, C:/Users/il
+gaz/OneDrive/Desktop/HUB/src/
+pages/ProjectDetail.tsx, C:/U
+sers/ilgaz/OneDrive/Desktop/H
+UB/src/pages/Shop.tsx, C:/Use
+rs/ilgaz/OneDrive/Desktop/HUB
+/src/pages/UploadProject.tsx,
+ C:/Users/ilgaz/OneDrive/Desk
+top/HUB/src/pages/VoiceRooms.
+tsx, dynamic import will not 
+move module into another chun
+k.
+[39m
+computing gzip size...
+[2mdist/[22m[32mindex.html                        [39m[1m[2m    0.47 kB[22m[1m[22m[2m Ôöé gzip:   0.31 kB[22m
+[2mdist/[22m[35massets/index-CO_Jjw7I.css         [39m[1m[2m   60.00 kB[22m[1m[22m[2m Ôöé gzip:   9.75 kB[22m
+[2mdist/[22m[36massets/hybridService-WEXcAO78.js  [39m[1m[2m    1.10 kB[22m[1m[22m[2m Ôöé gzip:   0.62 kB[22m
+[2mdist/[22m[36massets/index-Dd7dZvaY.js          [39m[1m[33m2,244.46 kB[39m[22m[2m Ôöé gzip: 667.31 kB[22m
+[33m
+(!) Some chunks are larger th
+an 500 kB after minification.
+ Consider:
+- Using dynamic import() to c
+ode-split the application
+- Use build.rollupOptions.out
+put.manualChunks to improve c
+hunking: https://rollupjs.org
+/configuration-options/#outpu
+t-manualchunks
+- Adjust chunk size limit for
+ this warning via build.chunk
+SizeWarningLimit.[39m
+[32mÔ£ô built in 7.13s[39m
